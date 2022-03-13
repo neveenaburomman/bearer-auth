@@ -4,11 +4,12 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-//const SECRET = process.env.SECRET;
+const SECRET = process.env.SECRET;
 
 const UsersModel = (sequelize, DataTypes) => {
 
-const Users = sequelize.define('user', {
+const Users = sequelize.define('user', {  // a define method to mappings between a model and a table . Sequelize will then automatically add 
+                                         //the attributes createdAt and updatedAt
     username: {
         type: DataTypes.STRING,
         allowNull: false
@@ -18,11 +19,14 @@ const Users = sequelize.define('user', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    }
-})
+    },
+    token :{
+      type: DataTypes.VIRTUAL
+    },
+});
 Users.authenticateBasic = async function (username,password) {
     try {
-        const user = await this.findOne({where:{username:username}});
+        const user = await this.findOne({ where :{username:username}});
         const valid = await bcrypt.compare(password,user.password);
         if(valid) {
             // generate a new token
@@ -46,6 +50,7 @@ Users.validateToken = async function(token) {
     if(user) {
         return user
     }
+    
     throw new Error('invalid token')
 }
 

@@ -2,7 +2,10 @@
 
 
 const base64 = require('base-64');
-const {Users}=require('../index.js');
+const {Users}=require('../../index');
+
+
+
 
 
 async function basicAuth(req,res,next) {
@@ -21,14 +24,13 @@ async function basicAuth(req,res,next) {
 
         let [username,password]= decoded.split(':'); //[username: password]
         // console.log('username');
+        
         try {
-            const user = await Users.findOne({where:{username:username}});
-            const valid = await bcrypt.compare(password,user.password);
-            if(valid) {
-                next()
-            } else {
-                next('user is not valid')
-            }
+            let user = await Users.authenticateBasic(username,password);
+
+            req.user=user;
+            next();
+            
         } catch(error) {
             next(error.message);
         }
