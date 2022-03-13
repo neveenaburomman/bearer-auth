@@ -14,6 +14,5 @@ and with every end points that will be sent ,the token and my server will valida
 
 - [The herokuapp link](https://bearer-auth-neveen.herokuapp.com/)
 
-- [The Action link](https://github.com/neveenaburomman/bearer-auth/actions)
 
 
