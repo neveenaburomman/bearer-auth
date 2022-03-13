@@ -2,7 +2,7 @@
 
 const express =require ('express');
 require('dotenv').config();
-const router= require('./auth/router.js')
+const router= require('./auth/router')
 const errorhandler=require('./error-handlers/500');
 const notfoundpage=require('./error-handlers/404');
 
